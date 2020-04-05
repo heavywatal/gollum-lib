@@ -702,6 +702,12 @@ module Gollum
       @sanitizer ||= Gollum::Sanitization.new(Gollum::Markup.to_xml_opts)
     end
 
+    # Returns a blob or tree object
+    def rev_parse(path, rev = @ref)
+      spec = "#{rev}:#{path}"
+      @repo.rev_parse(spec)
+    end
+
     private
 
     def parse_revert_options(sha1, sha2, commit = {})

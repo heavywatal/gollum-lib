@@ -96,6 +96,25 @@ context "Wiki" do
       FileUtils.rm_rf(@path)
     end
   end
+
+  test 'rev_parse returns a blob or tree object' do
+    blob = @wiki.rev_parse('Hobbit.md')
+    assert_equal blob.type, :blob
+    tree = @wiki.rev_parse('Mordor')
+    assert_equal tree.type, :tree
+  end
+end
+
+# Remove me after merging the PR
+# https://github.com/gollum/rugged_adapter/pull/44
+module Gollum
+  module Git
+    class Repo
+      def rev_parse(spec)
+        @repo.rev_parse(spec)
+      end
+    end
+  end
 end
 
 context "Wiki page previewing" do
